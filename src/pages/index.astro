@@ -1,13 +1,15 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Card from '../components/Card.astro';
 import H1 from '../components/H1.astro';
 import Main from '../components/Main.astro';
+import WeeksContainer from '../components/WeeksContainer.astro';
+import PastWeeks from '../components/PastWeeks.astro';
 ---
 
-<Layout title="Your life in weeks">
-	<Main>
-		<H1 text="Your life in weeks" />
-	</Main>
+<Layout title="Time Left Alive">
+    <Main>
+        <H1 text="Time Left Alive"/>
+        <WeeksContainer weeks={Array.from({ length: 52 })}/>
+        <PastWeeks/>
+    </Main>
 </Layout>
-

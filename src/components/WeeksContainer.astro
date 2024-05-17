@@ -1,0 +1,25 @@
+---
+type Props = {
+    weeks: any[]; // Specify the type of weeks data as needed
+};
+const { weeks } = Astro.props;
+---
+
+<div class="weeks-container">
+    {weeks.map((week, index) => (
+        <div key={index} class="black-square"></div>
+    ))}
+</div>
+
+<style>
+    .weeks-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .black-square {
+        width: 1vw; /* Adjust the size as needed */
+        height: 1vw; /* Adjust the size as needed */
+        margin: 0.5vw; /* Adjust the spacing between boxes */
+        background-color: black;
+    }
+</style>
