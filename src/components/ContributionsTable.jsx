@@ -1,8 +1,10 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
+// Function to generate fake data
 const generateFakeData = () => {
   const data = [];
   const today = new Date();
@@ -14,76 +16,68 @@ const generateFakeData = () => {
   return data.reverse();
 };
 
+// Function to generate week status array based on given weeks and leftover days
+const generateWeekStatusArray = (weeksdays) => {
+  const data = [];
+  const pastWeeks = weeksdays.weeks;
+  const leftoverdays = weeksdays.leftoverdays;
+  for (let i = 0; i < pastWeeks; i++) {
+    data.push({ count: 7 });
+  }
+  data.push({ count: leftoverdays });
+  const weeksToLive = (52 * 90 - (pastWeeks + 1));
+  for (let i = 0; i < weeksToLive; i++) {
+    data.push({ count: 0 });
+  }
+  return data;
+};
+
+// Function to get weeks data from input data
 const getWeekData = (data) => {
-    if (!data || !Array.isArray(data)) {
-      return []; // Return an empty array if data is undefined or not an array
-    }
-    const weeks = [];
-    let currentWeek = [];
-    data.forEach((day, index) => {
-      currentWeek.push(day);
-      if ((index + 1) % 52 === 0) {
-        weeks.push(currentWeek);
-        currentWeek = [];
-      }
-    });
-    if (currentWeek.length) {
+  if (!data || !Array.isArray(data)) {
+    return []; // Return an empty array if data is undefined or not an array
+  }
+  const weeks = [];
+  let currentWeek = [];
+  data.forEach((day, index) => {
+    currentWeek.push(day);
+    if ((index + 1) % 90 === 0) { // Changed 52 to 90 to align horizontally
       weeks.push(currentWeek);
+      currentWeek = [];
     }
-    return weeks;
-};  
+  });
+  if (currentWeek.length) {
+    weeks.push(currentWeek);
+  }
+  return weeks;
+};
 
-// i think before continuing with the layout, its important to define a static / default calendar
-// then work on the function that will produce the table 
-
+// ContributionsTable component
 const ContributionsTable = ({ data }) => {
   const weeks = getWeekData(data);
+
   return (
-    <div className="p-4 min-w-full		">
-      <div className="flex">
-        {/* <div className="flex flex-col">
-          {DAYS.map((day) => (
-            <div key={day} className="h-4 w-8 text-xs text-gray-500">{day}</div>
+    <div className="w-full h-screen flex flex-col items-center overflow-y-auto">
+      {weeks.map((week, weekIndex) => (
+        <div key={weekIndex} className="flex justify-between w-full mb-1">
+          {week.map(({ date, count }, dayIndex) => (
+            <div
+              key={dayIndex}
+              className={`flex items-center justify-center w-[calc(100%/90-0.1rem)] max-w-2 min-h-1.5 rounded-lg ${getWeekStatus(count)}`}
+              title={`${count} contributions`}
+            />
           ))}
-        </div> */}
-        <div className="min-w-full	">
-          <div className="grid grid-flow-col auto-cols-max gap-1">
-            {weeks.map((week, weekIndex) => (
-              <div key={weekIndex} className="grid grid-rows-52 gap-1">
-                {week.map(({ date, count }, dayIndex) => (
-                  <div
-                    key={dayIndex}
-                    className={`w-2 h-2 rounded-sm ${getWeekStatus(count)}`}
-                    title={`${date.toDateString()}: ${count} contributions`}
-                  />
-                ))}
-              </div>
-            ))}
-          </div>
         </div>
-      </div>
-      {/* <div className="flex justify-between mt-2 text-xs text-gray-500">
-        {MONTHS.map((month, index) => (
-          <div key={index} className="w-12 text-center">{month}</div>
-        ))}
-      </div> */}
+      ))}
     </div>
   );
 };
 
-// this sets the appeareance of the square
-
-
-//
+// Function to determine background color based on count
 const getWeekStatus = (count) => {
-    // if (count >= 7) return 'bg-black'
-    if (count >= 6) return 'bg-black';
-    if (count >= 5) return 'bg-gray-900';
-    if (count >= 4) return 'bg-gray-700';
-    if (count >= 3) return 'bg-gray-500';
-    if (count >= 2) return 'bg-gray-300';
-    if (count >= 1) return 'bg-gray-300';
-    return 'bg-gray-200';
+  if (count >= 7) return 'bg-black';
+  if (count >= 3) return 'bg-gray-500'; // Changed to 3 contributions to match your requirement
+  return 'bg-gray-200';
 };
 
 ContributionsTable.propTypes = {
@@ -95,8 +89,11 @@ ContributionsTable.propTypes = {
   ).isRequired,
 };
 
+// Define weeksdays object
+const weeksdays = { weeks: 1214, leftoverdays: 3 }; // Removed 'new'
+
 ContributionsTable.defaultProps = {
-  data: generateFakeData(),
+  data: generateWeekStatusArray(weeksdays),
 };
 
 export default ContributionsTable;

@@ -10,3 +10,16 @@ const DataCollector = () => {
 };
 
 export default DataCollector;
+
+// funtions for later
+const getTimeSinceBirth = (birthDate) => {
+  const today = new Date();
+  const diff = today - birthDate;
+  const weeksdays = {};
+  weeksdays.weeks = Math.floor(diff / (1000 * 60 * 60 * 24 * 7));
+  weeksdays.leftoverdays = Math.floor(diff / (1000 * 60 * 60 * 24)) % 7;
+  return weeksdays;
+}
+const birthDate = new Date('2001-02-07'); // Example birth date
+console.log(getTimeSinceBirth(birthDate));
+
