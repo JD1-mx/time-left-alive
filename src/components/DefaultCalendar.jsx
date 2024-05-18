@@ -1,4 +1,4 @@
-const DefaultCalendar = () => {
+const DefaultCalendarF = () => {
     const weeks = Array.from({ length: 52 }, (_, weekIndex) => ({
       week: weekIndex + 1,
       years: Array.from({ length: 90 }, () => 0),
@@ -23,6 +23,28 @@ const DefaultCalendar = () => {
         </div>
       </div>
     );
-  };
+};
+
+
+const DefaultCalendar = () => {
+  const rows = 90;
+  const columns = 52;
+
+  return (
+    <div className="w-full h-screen flex flex-col items-center overflow-y-auto">
+    {Array.from({ length: rows }).map((_, rowIndex) => (
+      <div key={rowIndex} className="flex justify-between w-full mb-1">
+        {Array.from({ length: columns }).map((_, colIndex) => (
+          <div
+            key={colIndex}
+            className="flex items-center justify-center w-[calc(100%/52-0.1rem)] max-w-2 min-h-1.5 bg-gray-200 rounded-lg"
+          >
+          </div>
+        ))}
+      </div>
+    ))}
+  </div>
+  );
+};
   
 export default DefaultCalendar
