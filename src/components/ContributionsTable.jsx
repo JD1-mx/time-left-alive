@@ -41,7 +41,7 @@ const getWeekData = (data) => {
   let currentWeek = [];
   data.forEach((day, index) => {
     currentWeek.push(day);
-    if ((index + 1) % 90 === 0) { // Changed 52 to 90 to align horizontally
+    if ((index + 1) % 52 === 0) { // Changed 52 to 90 to align horizontally
       weeks.push(currentWeek);
       currentWeek = [];
     }
