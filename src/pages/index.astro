@@ -1,14 +1,17 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import H1 from '../components/H1.astro';
 import Main from '../components/Main.astro';
+import H1 from '../components/H1.astro';
+import DataCollector from '../components/DateCollector';
 import WeeksContainer from '../components/WeeksContainer.astro';
 import PastWeeks from '../components/PastWeeks.astro';
+
 ---
 
 <Layout title="Time Left Alive">
     <Main>
         <H1 text="Time Left Alive"/>
+        <DataCollector client:load/>
         <WeeksContainer weeks={Array.from({ length: 52 })}/>
         <PastWeeks/>
     </Main>
