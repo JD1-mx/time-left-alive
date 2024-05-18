@@ -5,8 +5,8 @@ import H1 from '../components/H1.astro';
 import DataCollector from '../components/DateCollector.jsx';
 import WeeksContainer from '../components/WeeksContainer.astro';
 import PastWeeks from '../components/PastWeeks.astro';
+import DefaultCalendar from '../components/DefaultCalendar.jsx'
 import ContributionsTable from '../components/ContributionsTable.jsx'
-
 ---
 
 <Layout title="Time Left Alive">
@@ -14,6 +14,7 @@ import ContributionsTable from '../components/ContributionsTable.jsx'
         <H1 text="Time Left Alive"/>
         <DataCollector client:load/>
         <!-- <WeeksContainer weeks={Array.from({ length: 52 })}/> -->
-        <ContributionsTable client:load/>
+        <!-- <ContributionsTable client:load/> -->
+        <DefaultCalendar/>
     </Main>
 </Layout>
